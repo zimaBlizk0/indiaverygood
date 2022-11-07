@@ -1,0 +1,23 @@
+---
+- hosts: PATES
+  become: yes
+  become_method: sudo 
+  become_user: root
+  tasks:
+          - name: Copy installation package MasterPDF
+            copy:
+                    src: ./master5.8.33.deb
+                    dest: /opt/master5.8.33.deb
+          - name: Install MasterPDF
+            apt:
+                    deb: /opt/master5.8.33.deb
+          - name: Copy configuration file for MasterPDF
+            copy:
+                    src: "./Master\ PDF\ Editor\ 5.conf"
+                    dest: "/usr/share/Master\ PDF\ Editor\ 5.conf"
+          - name: Added line in mount.sh file
+            lineinfile: 
+             path: /etc/profile.d/mount.sh
+             line: cp -f /usr/share/Master\ PDF\ Editor\ 5.conf $HOME/.config/Code\ Industry/Master\ PDF\ Editor\ 5.conf
+             insertafter: EOF
+
